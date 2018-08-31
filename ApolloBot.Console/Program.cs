@@ -59,7 +59,7 @@ namespace ApolloBot.Console
 
 
                 var slackBot = new SlackBot(slackApi, ytApi, rlApi, weatherApi, kaamelottApi, chromeCastApi, _channelId, 
-                    "xoxp-301409525076-303733381060-409456340035-ac577a7a1589305fc2776395a82e4418", _log, () => _running = false);
+                    "#KEY TO SET#", _log, () => _running = false);
 
                 slackBot.Start();
 
