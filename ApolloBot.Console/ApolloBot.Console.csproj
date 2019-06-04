@@ -57,11 +57,14 @@
     <PackageReference Include="log4net">
       <Version>2.0.8</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.AspNet.WebApi.OwinSelfHost">
+      <Version>5.2.6</Version>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>11.0.2</Version>
     </PackageReference>
     <PackageReference Include="Slack.Webhooks">
-      <Version>1.0.5</Version>
+      <Version>1.0.6</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +75,10 @@
     <ProjectReference Include="..\Apollo.Youtube\ApolloBot.Youtube.csproj">
       <Project>{c27b1a0f-10c6-4be5-88df-fec4f2b4bbf4}</Project>
       <Name>ApolloBot.Youtube</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ApolloBot.BeatSaver\ApolloBot.BeatSaver.csproj">
+      <Project>{47bbd30a-c5a9-4fe6-be8b-69a055b6324e}</Project>
+      <Name>ApolloBot.BeatSaver</Name>
     </ProjectReference>
     <ProjectReference Include="..\ApolloBot.Cast\ApolloBot.Cast.csproj">
       <Project>{480bfaff-b4d8-42c1-8877-f8a7c84f80c4}</Project>

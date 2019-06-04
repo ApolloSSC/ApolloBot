@@ -20,14 +20,12 @@ namespace ApolloBot.Slack.API
         private bool _sendMessagesToSlack = true;
 #endif
 
-        public const string WEBHOOK_URL = "#WEBHOOK TO SET#";
-
         public SlackClient _client;
         public HttpClient _clientHttp;
 
         public SlackApi(string webhook = null)
         {
-            _client = new SlackClient(WEBHOOK_URL);
+            _client = new SlackClient(webhook);
 
             _clientHttp = new HttpClient();
         }

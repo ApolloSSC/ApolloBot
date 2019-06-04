@@ -1,17 +1,21 @@
 ﻿using Apollo.Weather.Models;
+using ApolloBot.Core;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Apollo.Weather
 {
-    public class WeatherApi
+    public class WeatherApi : IApi
     {
-        private const string KEY = "#KEY TO SET#";
         private const string URL_CITY_SEARCH = "http://api.openweathermap.org/data/2.5/weather?q={0}&units=metric&APPID={1}";
         private const string URL_WEEK_CITY_SEARCH = "http://api.openweathermap.org/data/2.5/forecast?q={0}&units=metric&APPID={1}";
+
+        private string _key;
 
         private HttpClient _client;
 
@@ -27,7 +31,7 @@ namespace Apollo.Weather
                 location = "Lyon";
             }
 
-            var request = new HttpRequestMessage(HttpMethod.Get, string.Format(URL_CITY_SEARCH, location, KEY));
+            var request = new HttpRequestMessage(HttpMethod.Get, string.Format(URL_CITY_SEARCH, location, _key));
 
             var response = await _client.SendAsync(request);
             var responseStr = await response.Content.ReadAsStringAsync();
@@ -42,7 +46,7 @@ namespace Apollo.Weather
                 location = "Lyon";
             }
 
-            var request = new HttpRequestMessage(HttpMethod.Get, string.Format(URL_WEEK_CITY_SEARCH, location, KEY));
+            var request = new HttpRequestMessage(HttpMethod.Get, string.Format(URL_WEEK_CITY_SEARCH, location, _key));
 
             var response = await _client.SendAsync(request);
             var responseStr = await response.Content.ReadAsStringAsync();
@@ -126,6 +130,59 @@ namespace Apollo.Weather
             System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
             dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
             return dtDateTime;
+        }
+
+        public void Init(IConfigurationRoot configuration)
+        {
+            _key = configuration.GetValue<string>("Weather:Key");
+        }
+
+        public IEnumerable<BotAction> GetActions()
+        {
+            var listActions = new List<BotAction>();
+
+            var weekAction = new BotAction()
+            {
+                CommandLine = Constants.CMD_WEATHER_WEEK,
+                Description = Constants.DESC_WEATHER_WEEK,
+                Category = Constants.CAT_WEATHER,
+                Execute = async (parameters, log, currentReader, user, time) =>
+                {
+                    var week = await GetCurrentWeek(parameters.Length >= 1 ? parameters[0] : null);
+                    if (week == null)
+                    {
+                        return $"Une erreur est survenue";
+                    }
+
+                    return week;
+                }
+            };
+            listActions.Add(weekAction);
+
+            var dayAction = new BotAction()
+            {
+                CommandLine = Constants.CMD_WEATHER_DAY,
+                Description = Constants.DESC_WEATHER_DAY,
+                Category = Constants.CAT_WEATHER,
+                Execute = async (parameters, log, currentReader, user, time) =>
+                {
+                    var day = await GetCurrentDay(parameters.Length >= 1 ? parameters[0] : null);
+                    if (day == null)
+                    {
+                        return $"Une erreur est survenue";
+                    }
+
+                    return day;
+                }
+            };
+            listActions.Add(dayAction);
+
+            return listActions;
+        }
+
+        public IEnumerable<BotReader> GetReaders()
+        {
+            return null;
         }
     }
 }

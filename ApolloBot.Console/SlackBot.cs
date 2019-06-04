@@ -1,5 +1,6 @@
 ﻿using Apollo.Weather;
 using Apollo.Youtube;
+using ApolloBot.BeatSaver;
 using ApolloBot.Cast;
 using ApolloBot.Kaamelott;
 using ApolloBot.RocketLeague.API;
@@ -8,6 +9,7 @@ using log4net;
 using Slack.Webhooks;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,6 +28,7 @@ namespace ApolloBot.Console
         private RLApi _rlApi;
         private WeatherApi _weatherApi;
         private KaamelottApi _kaamelottApi;
+        private BeatSaverApi _beatSaverApi;
         private ChromeCastApi _castApi;
         private string _channelId;
         private string _token;
@@ -49,7 +52,10 @@ namespace ApolloBot.Console
 
         private ILog _logger;
 
-        public SlackBot(SlackApi api, YoutubeApi ytApi, RLApi rlApi, WeatherApi weatherApi, KaamelottApi kaamelottApi, ChromeCastApi castApi, string channelId, string token, ILog logger, Action onClose)
+        private Process _vlcProcess;
+
+        public SlackBot(SlackApi api, YoutubeApi ytApi, RLApi rlApi, WeatherApi weatherApi, KaamelottApi kaamelottApi, BeatSaverApi beatSaverApi, ChromeCastApi castApi,
+            string channelId, string token, ILog logger, Action onClose)
         {
             _logger = logger;
             _api = api;
@@ -57,6 +63,7 @@ namespace ApolloBot.Console
             _rlApi = rlApi;
             _weatherApi = weatherApi;
             _kaamelottApi = kaamelottApi;
+            _beatSaverApi = beatSaverApi;
             _castApi = castApi;
             _channelId = channelId;
             _token = token;
@@ -100,7 +107,7 @@ namespace ApolloBot.Console
                             else
                             {
                                 var image = video.Snippet.Thumbnails.Maxres?.Url;
-                                
+
                                 if(image == null)
                                 {
                                     image = video.Snippet.Thumbnails.Standard?.Url;
@@ -157,7 +164,7 @@ namespace ApolloBot.Console
                         }
                         else if(parameters.Length == 1)
                         {
-                            
+
 
                             var player = await _rlApi.GetPlayerById(parameters[0], 1);
                             if(player == null)
@@ -166,7 +173,7 @@ namespace ApolloBot.Console
                             }
                             else
                             {
-                                _api.SendMessage(channelId, $"<{player.SignatureUrl}>", Emoji.Ghost, _botName, 
+                                _api.SendMessage(channelId, $"<{player.SignatureUrl}>", Emoji.Ghost, _botName,
                                     _logger);
                             }
                         }
@@ -244,7 +251,7 @@ namespace ApolloBot.Console
                             {
                                 await _api.SendMessage2(_token, channelId, string.Join("\n", sounds), Emoji.Ghost, _botName, _logger, null, ts, true);
                             }
-                      } 
+                      }
                     }
                 },
                    { Constants.CMD_KAAMELOTT_PLAY, async (user, parameters, ts) => {
@@ -263,7 +270,8 @@ namespace ApolloBot.Console
                            {
                                 
                                 //var resultPlay = await _kaamelottApi.PlayById(paramId);
-                                var sound = await _kaamelottApi.GetMp3(paramId);
+                                var sound = await _kaamelottApi.GetSound(paramId);
+                                var soundMp3 = await _kaamelottApi.GetMp3(paramId);
 
                                 if(sound == null)
                                {
@@ -271,8 +279,17 @@ namespace ApolloBot.Console
                                }
                                else
                                {
-                                   await _castApi.Send(sound);
-                               } 
+                                   var resultSendCast = await _castApi.Send(soundMp3);
+
+                                   if(resultSendCast)
+                                   {
+                                        _api.SendMessage(channelId, $"Son joué: {sound.Title} ({sound.Character})", Emoji.Ghost, _botName, _logger);
+                                   }
+                                   else
+                                   {
+                                       _api.SendMessage(channelId, $"Un problème est survenu lors de l'envoi pour le son: {sound.Title} ({sound.Character})", Emoji.Ghost, _botName, _logger);
+                                   }
+                               }
                            }
                            else
                            {
@@ -342,7 +359,7 @@ namespace ApolloBot.Console
                 },
                      { Constants.CMD_CHROMECAST_FIND, async (user, parameters, ts) => {
                          var result = await _castApi.Find();
-                               
+
                         if(result != null && result.Any())
                         {
                             _api.SendMessage(channelId, string.Join("\n", result), Emoji.Ghost, _botName, _logger);
@@ -353,7 +370,11 @@ namespace ApolloBot.Console
                         }
                      }
                 },
-                      { Constants.CMD_CHROMECAST_SEND, async (user, parameters, ts) => {
+                      { Constants.CMD_CHROMECAST_STOP, async (user, parameters, ts) => {
+                          await _castApi.Stop();
+                     }
+                },
+                       { Constants.CMD_CHROMECAST_SEND, async (user, parameters, ts) => {
                           if(parameters.Length < 1)
                           {
                                _api.SendMessage(channelId, $"La commande obligatoirement 1 paramètre, l'url du média", Emoji.Ghost, _botName, _logger);
@@ -373,6 +394,140 @@ namespace ApolloBot.Console
                               }
                           }
                      }
+                },
+                 {
+                    Constants.CMD_BEATSAVER_LASTEST, async (user, parameters, ts) => {
+                        var result = await _beatSaverApi.GetLastest();
+
+                        if(result.Any())
+                        {
+                            var str = "";
+                            foreach(var song in result.Take(5))
+                            {
+                                str += $"*{song.SongName}* - {song.SongSubName} (id: {song.Key})\n";
+                            }
+
+                            _api.SendMessage(channelId, str, Emoji.Ghost, _botName, _logger);
+                        }
+                        else
+                        {
+                            _api.SendMessage(channelId, $"Une erreur est survenue", Emoji.Ghost, _botName, _logger);
+                        }
+                    }
+                },
+                 {
+                    Constants.CMD_BEATSAVER_TOP_DOWNLOAD, async (user, parameters, ts) => {
+                        var result = await _beatSaverApi.GetTopDownload();
+
+                        if(result.Any())
+                        {
+                            var str = "";
+                            foreach(var song in result.Take(5))
+                            {
+                                str += $"*{song.SongName}* - {song.SongSubName} (id: {song.Key})\n";
+                            }
+
+                            _api.SendMessage(channelId, str, Emoji.Ghost, _botName, _logger);
+                        }
+                        else
+                        {
+                            _api.SendMessage(channelId, $"Une erreur est survenue", Emoji.Ghost, _botName, _logger);
+                        }
+                    }
+                },
+                 {
+                    Constants.CMD_BEATSAVER_TOP_PLAYED, async (user, parameters, ts) => {
+                        var result = await _beatSaverApi.GetTopPlayed();
+
+                        if(result.Any())
+                        {
+                            var str = "";
+                            foreach(var song in result.Take(5))
+                            {
+                                str += $"*{song.SongName}* - {song.SongSubName} (id: {song.Key})\n";
+                            }
+
+                            _api.SendMessage(channelId, str, Emoji.Ghost, _botName, _logger);
+                        }
+                        else
+                        {
+                            _api.SendMessage(channelId, $"Une erreur est survenue", Emoji.Ghost, _botName, _logger);
+                        }
+                    }
+                },
+                  {
+                    Constants.CMD_BEATSAVER_SEARCH, async (user, parameters, ts) => {
+                        if(parameters.Length != 1)
+                        {
+                            _api.SendMessage(channelId, $"La commande obligatoirement 1 paramètre, le nom à chercher", Emoji.Ghost, _botName, _logger);
+                        }
+                        else
+                        {
+                            var text = parameters.Last();
+                            var result = await _beatSaverApi.Search(text);
+
+                            if(result.Any())
+                            {
+                                var str = "";
+                                foreach(var song in result.Take(5))
+                                {
+                                    str += $"*{song.SongName}* - {song.SongSubName} (id: {song.Key})\n";
+                                }
+
+                                _api.SendMessage(channelId, str, Emoji.Ghost, _botName, _logger);
+                            }
+                            else
+                            {
+                                _api.SendMessage(channelId, $"Pas de sons trouvés", Emoji.Ghost, _botName, _logger);
+                            }
+                        }
+                    }
+                },
+                  {
+                    Constants.CMD_BEATSAVER_PLAY, async (user, parameters, ts) => {
+                        if(parameters.Length != 1)
+                        {
+                            _api.SendMessage(channelId, $"La commande obligatoirement 1 paramètre, l'id du son", Emoji.Ghost, _botName, _logger);
+                        }
+                        else
+                        {
+                            var key = parameters.Last();
+
+                            try
+                            {
+                                var song = await _beatSaverApi.GetAudioByKey(key);
+                                //var result = await _castApi.Send(song);
+
+                                _vlcProcess = new Process();
+                                System.Diagnostics.ProcessStartInfo vlcInfo = new System.Diagnostics.ProcessStartInfo();
+                                vlcInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                                vlcInfo.FileName = @"C:\Program Files (x86)\VideoLAN\VLC\vlc.exe";
+                                vlcInfo.Arguments = $"\"{song}\" --sout \"#chromecast\" --sout-chromecast-ip=192.168.1.102 --demux-filter=demux_chromecast";
+                                _vlcProcess.StartInfo = vlcInfo;
+                                _vlcProcess.Start();
+                            }
+                            catch(Exception ex)
+                            {
+                                _api.SendMessage(channelId, $"Une erreur est survenue : {ex.Message}", Emoji.Ghost, _botName, _logger);
+                            }
+                        }
+                    }
+                },
+                   {
+                    Constants.CMD_BEATSAVER_STOP, async (user, parameters, ts) => {
+                        if(_vlcProcess != null && !_vlcProcess.HasExited)
+                        {
+                            try
+                            {
+                                _vlcProcess.Close();
+                                _vlcProcess = null;
+                            }
+                            catch(Exception ex)
+                            {
+                                _api.SendMessage(channelId, $"Une erreur est survenue : {ex.Message}", Emoji.Ghost, _botName, _logger);
+                            }
+                        }
+                    }
                 },
             };
         }

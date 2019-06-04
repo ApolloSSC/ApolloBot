@@ -1,23 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApolloBot", "ApolloBot\ApolloBot.csproj", "{A8D1AC0A-940B-4EE8-B4DD-2D63F92569FA}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApolloBot.RocketLeague.API", "ApolloBot.RocketLeague.API\ApolloBot.RocketLeague.API.csproj", "{773B322B-ABB3-4EFF-8C26-994CEE7F7B23}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApolloBot.Slack.API", "ApolloBot.Slack.API\ApolloBot.Slack.API.csproj", "{DC13A986-6F99-4EA4-A46E-DBAD84395B53}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApolloBot.Console", "ApolloBot.Console\ApolloBot.Console.csproj", "{86DC0856-E464-4046-8AD6-F2278A493DD8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApolloBot.Youtube", "Apollo.Youtube\ApolloBot.Youtube.csproj", "{C27B1A0F-10C6-4BE5-88DF-FEC4F2B4BBF4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApolloBot.Weather", "Apollo.Weather\ApolloBot.Weather.csproj", "{6C8BD206-1B6A-48AA-A689-48E23162C853}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApolloBot.Kaamelott", "ApolloBot.Kaamelott\ApolloBot.Kaamelott.csproj", "{784AC36B-FAB6-41FA-8EA5-C0CCE7DBCC2B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApolloBot.Kaamelott", "ApolloBot.Kaamelott\ApolloBot.Kaamelott.csproj", "{784AC36B-FAB6-41FA-8EA5-C0CCE7DBCC2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApolloBot.Cast", "ApolloBot.Cast\ApolloBot.Cast.csproj", "{480BFAFF-B4D8-42C1-8877-F8A7C84F80C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApolloBot.Cast", "ApolloBot.Cast\ApolloBot.Cast.csproj", "{480BFAFF-B4D8-42C1-8877-F8A7C84F80C4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApolloBot.Console.NetCore", "ApolloBot.Console.NetCore\ApolloBot.Console.NetCore.csproj", "{B44A88BA-F3AF-483F-99E8-9182DC7E53D4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApolloBot.BeatSaver", "ApolloBot.BeatSaver\ApolloBot.BeatSaver.csproj", "{47BBD30A-C5A9-4FE6-BE8B-69A055B6324E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApolloBot.Core", "ApolloBot.Core\ApolloBot.Core.csproj", "{A42E3E50-509A-4B76-BBE1-2ED66AD9A570}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApolloBot.Other", "ApolloBot.Other\ApolloBot.Other.csproj", "{C0ECBED4-5364-4158-9571-24B718CE4AF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,22 +27,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A8D1AC0A-940B-4EE8-B4DD-2D63F92569FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8D1AC0A-940B-4EE8-B4DD-2D63F92569FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A8D1AC0A-940B-4EE8-B4DD-2D63F92569FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A8D1AC0A-940B-4EE8-B4DD-2D63F92569FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{773B322B-ABB3-4EFF-8C26-994CEE7F7B23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{773B322B-ABB3-4EFF-8C26-994CEE7F7B23}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{773B322B-ABB3-4EFF-8C26-994CEE7F7B23}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{773B322B-ABB3-4EFF-8C26-994CEE7F7B23}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DC13A986-6F99-4EA4-A46E-DBAD84395B53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DC13A986-6F99-4EA4-A46E-DBAD84395B53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC13A986-6F99-4EA4-A46E-DBAD84395B53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC13A986-6F99-4EA4-A46E-DBAD84395B53}.Release|Any CPU.Build.0 = Release|Any CPU
-		{86DC0856-E464-4046-8AD6-F2278A493DD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{86DC0856-E464-4046-8AD6-F2278A493DD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{86DC0856-E464-4046-8AD6-F2278A493DD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{86DC0856-E464-4046-8AD6-F2278A493DD8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C27B1A0F-10C6-4BE5-88DF-FEC4F2B4BBF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C27B1A0F-10C6-4BE5-88DF-FEC4F2B4BBF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C27B1A0F-10C6-4BE5-88DF-FEC4F2B4BBF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,6 +47,22 @@ Global
 		{480BFAFF-B4D8-42C1-8877-F8A7C84F80C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{480BFAFF-B4D8-42C1-8877-F8A7C84F80C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{480BFAFF-B4D8-42C1-8877-F8A7C84F80C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B44A88BA-F3AF-483F-99E8-9182DC7E53D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B44A88BA-F3AF-483F-99E8-9182DC7E53D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B44A88BA-F3AF-483F-99E8-9182DC7E53D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B44A88BA-F3AF-483F-99E8-9182DC7E53D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47BBD30A-C5A9-4FE6-BE8B-69A055B6324E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47BBD30A-C5A9-4FE6-BE8B-69A055B6324E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47BBD30A-C5A9-4FE6-BE8B-69A055B6324E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47BBD30A-C5A9-4FE6-BE8B-69A055B6324E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A42E3E50-509A-4B76-BBE1-2ED66AD9A570}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A42E3E50-509A-4B76-BBE1-2ED66AD9A570}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A42E3E50-509A-4B76-BBE1-2ED66AD9A570}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A42E3E50-509A-4B76-BBE1-2ED66AD9A570}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0ECBED4-5364-4158-9571-24B718CE4AF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0ECBED4-5364-4158-9571-24B718CE4AF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0ECBED4-5364-4158-9571-24B718CE4AF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0ECBED4-5364-4158-9571-24B718CE4AF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

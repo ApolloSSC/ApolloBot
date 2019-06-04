@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GoogleCast" Version="1.6.2" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.OwinSelfHost" Version="5.2.6" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ApolloBot.Core\ApolloBot.Core.csproj" />
+    <ProjectReference Include="..\ApolloBot.Slack.API\ApolloBot.Slack.API.csproj" />
   </ItemGroup>
 
 </Project>

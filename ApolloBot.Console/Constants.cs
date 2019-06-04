@@ -43,7 +43,14 @@ namespace ApolloBot.Console
         public const string CMD_KAAMELOTT_LIST = "!klist";
         public const string CMD_CHROMECAST_FIND = "!ccf";
         public const string CMD_CHROMECAST_SEND = "!ccs";
+        public const string CMD_CHROMECAST_STOP = "!ccstop";
         public const string CMD_LIST = "!list";
+        public const string CMD_BEATSAVER_LASTEST = "!bsl";
+        public const string CMD_BEATSAVER_TOP_DOWNLOAD = "!bstd";
+        public const string CMD_BEATSAVER_TOP_PLAYED = "!bstp";
+        public const string CMD_BEATSAVER_SEARCH = "!bss";
+        public const string CMD_BEATSAVER_PLAY = "!bsp";
+        public const string CMD_BEATSAVER_STOP = "!bsstop";
 
         public const string DATETIME_FORMAT = "ddd dd/MM HH:mm";
         public const string DATE_FORMAT = "ddd dd/MM";

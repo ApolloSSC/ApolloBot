@@ -1,13 +1,16 @@
 ﻿using Apollo.Weather;
 using Apollo.Youtube;
+using ApolloBot.BeatSaver;
 using ApolloBot.Cast;
 using ApolloBot.Kaamelott;
 using ApolloBot.RocketLeague.API;
 using log4net.Config;
+using Microsoft.Owin.Hosting;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -56,10 +59,11 @@ namespace ApolloBot.Console
                 var weatherApi = new WeatherApi();
                 var kaamelottApi = new KaamelottApi();
                 var chromeCastApi = new ChromeCastApi();
+                var beatSaverApi = new BeatSaverApi();
 
 
-                var slackBot = new SlackBot(slackApi, ytApi, rlApi, weatherApi, kaamelottApi, chromeCastApi, _channelId, 
-                    "#KEY TO SET#", _log, () => _running = false);
+                var slackBot = new SlackBot(slackApi, ytApi, rlApi, weatherApi, kaamelottApi, beatSaverApi, chromeCastApi, _channelId,
+                    "xoxp-301409525076-303733381060-426903598116-8bf538b93cad3c84ec7ede55edaa11f0", _log, () => _running = false);
 
                 slackBot.Start();
 
@@ -82,6 +86,7 @@ namespace ApolloBot.Console
             {
                 _log.Error(e);
             }
+            
         }
     }
 }
