@@ -8,7 +8,7 @@ namespace ApolloBot.BeatSaver.Models
     [DataContract]
     public class BeatSaverResultApi
     {
-        [DataMember(Name = "songs")]
+        [DataMember(Name = "docs")]
         public BeatSaverSongApi[] Songs { get; set; }
 
         [DataMember(Name = "song")]

@@ -15,13 +15,13 @@ namespace ApolloBot.BeatSaver
 
     public class BeatSaverApi: IApi
     {
-        private const string URL_DOWNLOAD = "https://beatsaver.com/download/";
-        private const string URL = "https://beatsaver.com/api/songs/";
-        private const string URL_LASTEST = "new/{0}";
-        private const string URL_TOP_DOWNLOAD = "top/{0}";
+        private const string URL_DOWNLOAD = "https://beatsaver.com/api/download/key/";
+        private const string URL = "https://beatsaver.com/api/maps/";
+        private const string URL_LASTEST = "latest/{0}";
+        private const string URL_TOP_DOWNLOAD = "downloads/{0}";
         private const string URL_TOP_PLAYED = "plays/{0}";
-        private const string URL_SEARCH = "search/all/{0}";
-        private const string URL_DETAIL = "details/{0}";
+        private const string URL_SEARCH = "search/text/0?q=";
+        private const string URL_DETAIL = "detail/{0}";
 
         private HttpClient _client;
 
@@ -118,19 +118,19 @@ namespace ApolloBot.BeatSaver
 
         public async Task<string> GetAudioByKey(string key)
         {
-            var result = await DownloadByKey(key);
+            //var result = await DownloadByKey(key);
 
-            if(result)
-            {
-                var song = await GetByKey(key);
+            //if(result)
+            //{
+            //    var song = await GetByKey(key);
 
-                if (Directory.Exists(Directory.GetCurrentDirectory() + $"Songs\\{key}"))
-                {
-                    var directory = Directory.GetDirectories(Directory.GetCurrentDirectory() + $"Songs\\{key}\\").First();
-                    var audio = song.Difficulties.First().Value.AudioPath;
-                    return Directory.GetCurrentDirectory() + $"\\{directory}\\{audio}";
-                }
-            }
+            //    if (Directory.Exists(Directory.GetCurrentDirectory() + $"Songs\\{key}"))
+            //    {
+            //        var directory = Directory.GetDirectories(Directory.GetCurrentDirectory() + $"Songs\\{key}\\").First();
+            //        var audio = song.Difficulties.First().Value.AudioPath;
+            //        return Directory.GetCurrentDirectory() + $"\\{directory}\\{audio}";
+            //    }
+            //}
 
             return null;
         }
@@ -165,7 +165,7 @@ namespace ApolloBot.BeatSaver
                         var str = "";
                         foreach (var song in result.Take(size))
                         {
-                            str += $"*{song.SongName}* - {song.SongSubName} (id: {song.Key})\n";
+                            str += $"*{song.Name}* ({song.Metadata.AuthorName}) (id: {song.Key}, :arrow_down: {song.Stats.DownloadCount}, :video_game: {song.Stats.PlayedCount}, :+1: {song.Stats.UpVotes}, :-1: {song.Stats.DownVotes})\n";
                         }
 
                         return str;
@@ -197,7 +197,7 @@ namespace ApolloBot.BeatSaver
                         var str = "";
                         foreach (var song in result.Take(size))
                         {
-                            str += $"*{song.SongName}* - {song.SongSubName} (id: {song.Key}, :arrow_down: {song.DownloadCount}, :video_game: {song.PlayedCount}, :+1: {song.UpVotes}, :-1: {song.DownVotes})\n";
+                            str += $"*{song.Name}* ({song.Metadata.AuthorName}) (id: {song.Key}, :arrow_down: {song.Stats.DownloadCount}, :video_game: {song.Stats.PlayedCount}, :+1: {song.Stats.UpVotes}, :-1: {song.Stats.DownVotes})\n";
                         }
 
                         return str;
@@ -229,7 +229,7 @@ namespace ApolloBot.BeatSaver
                         var str = "";
                         foreach (var song in result.Take(size))
                         {
-                            str += $"*{song.SongName}* - {song.SongSubName} (id: {song.Key}, :arrow_down: {song.DownloadCount}, :video_game: {song.PlayedCount}, :+1: {song.UpVotes}, :-1: {song.DownVotes})\n";
+                            str += $"*{song.Name}* ({song.Metadata.AuthorName}) (id: {song.Key}, :arrow_down: {song.Stats.DownloadCount}, :video_game: {song.Stats.PlayedCount}, :+1: {song.Stats.UpVotes}, :-1: {song.Stats.DownVotes})\n";
                         }
 
                         return str;
@@ -260,7 +260,7 @@ namespace ApolloBot.BeatSaver
                         var str = "";
                         foreach (var song in result.Take(5))
                         {
-                            str += $"*{song.SongName}* - {song.SongSubName} (id: {song.Key}, :arrow_down: {song.DownloadCount}, :video_game: {song.PlayedCount}, :+1: {song.UpVotes}, :-1: {song.DownVotes})\n";
+                            str += $"*{song.Name}* ({song.Metadata.AuthorName}) (id: {song.Key}, :arrow_down: {song.Stats.DownloadCount}, :video_game: {song.Stats.PlayedCount}, :+1: {song.Stats.UpVotes}, :-1: {song.Stats.DownVotes})\n";
                         }
 
                         return str;
