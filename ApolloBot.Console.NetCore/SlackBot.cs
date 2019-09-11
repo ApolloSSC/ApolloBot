@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -59,9 +60,9 @@ namespace ApolloBot.Console
             _processor = new ActionProcessor((text) =>
             {
                 _logger.Debug(text);
-#if DEBUG
-                _api.SendMessage(_channelName, text, Emoji.Ghost, _botName, _logger);
-#endif
+//#if DEBUG
+//                _api.SendMessage(_channelName, text, Emoji.Ghost, _botName, _logger);
+//#endif
             });
 
             RegisterApi(apis, config);
@@ -147,7 +148,11 @@ namespace ApolloBot.Console
                                 {
                                     var lines = result.Result.Split('\n');
 
-                                    if(lines.Length > 25)
+                                    if(result.Result.StartsWith("{"))
+                                    {
+                                        _api.UploadFile(_channelName, _token, Encoding.UTF8.GetBytes(result.Result), message.TimeStamp, _logger);
+                                    }
+                                    else if(lines.Length > 25)
                                     {
                                         int count = 0;
 

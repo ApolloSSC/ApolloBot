@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using WMPLib;
 
 namespace ApolloBot.Kaamelott
 {
@@ -21,13 +20,9 @@ namespace ApolloBot.Kaamelott
 
         private List<Sound> _sounds;
 
-        private WindowsMediaPlayer _wplayer;
-
         public KaamelottApi()
         {
             _client = new HttpClient();
-
-            _wplayer = new WindowsMediaPlayer();
         }
 
         public async Task GetAllSounds()
@@ -130,7 +125,7 @@ namespace ApolloBot.Kaamelott
 
         public void SetVolume(int volume)
         {
-            _wplayer.settings.volume = volume;
+
         }
 
         public void Init(IConfigurationRoot configuration)

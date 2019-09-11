@@ -48,7 +48,7 @@ namespace ApolloBot.Console
                 string webhook = configuration.GetValue<string>("Slack:Webhook");
                 string token = configuration.GetValue<string>("Slack:Token");
                 string channelId = configuration.GetValue<string>("Slack:ChannelId");
-                string channelName = configuration.GetValue<string>("Slack:ChannelId");
+                string channelName = configuration.GetValue<string>("Slack:ChannelName");
                 string botName = configuration.GetValue<string>("Slack:ChannelId");
 
                 _log.Info("Start");

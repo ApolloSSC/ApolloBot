@@ -175,6 +175,18 @@ namespace ApolloBot.Core
         {
             var listActions = new List<BotAction>();
 
+            var helpAction = new BotAction()
+            {
+                CommandLine = Constants.CMD_HELP,
+                Description = Constants.DESC_HELP,
+                Category = Constants.CAT_OTHER,
+                Execute = (parameters, log, currentReader, user, time) =>
+                {
+                    return Task.FromResult("Pour voir les catégories *!categories*, pour voir les commandes d'une categorie *!category <category>*");
+                }
+            };
+            listActions.Add(helpAction);
+
             var categoryAction = new BotAction()
             {
                 CommandLine = Constants.CMD_CATEGORY_ACTIONS,

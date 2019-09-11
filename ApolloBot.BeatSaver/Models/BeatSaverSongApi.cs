@@ -23,6 +23,9 @@ namespace ApolloBot.BeatSaver.Models
         [DataMember(Name = "description")]
         public string Description { get; set; }
 
+        [DataMember(Name = "hash")]
+        public string Hash { get; set; }
+
         [DataMember(Name = "stats")]
         public BeatSaverSongStatsApi Stats { get; set; }
     }

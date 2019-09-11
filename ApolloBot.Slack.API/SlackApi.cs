@@ -3,8 +3,10 @@ using Newtonsoft.Json;
 using Slack.Webhooks;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -76,6 +78,40 @@ namespace ApolloBot.Slack.API
                     _client.Post(slackMessage);
                 }
                 Console.WriteLine(Convert.ToBase64String(image));
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
+
+        public void UploadFile(string channel, string token, byte[] file, string parent, ILog logger)
+        {
+            try
+            {
+                if (_sendMessagesToSlack)
+                {
+                    using (var httpClient = new HttpClient())
+                    {
+                        var request = new HttpRequestMessage(HttpMethod.Post, $"https://slack.com/api/files.upload");
+
+                        // we need to send a request with multipart/form-data
+                        var multiForm = new MultipartFormDataContent();
+
+                        // add API method parameters
+                        multiForm.Add(new StringContent(token), "token");
+                        multiForm.Add(new StringContent(channel), "channels");
+                        multiForm.Add(new StringContent(parent), "thread_ts");
+                        multiForm.Add(new ByteArrayContent(file), "file", "file.json");
+
+                        request.Content = multiForm;
+
+                        var response = httpClient.SendAsync(request).Result;
+
+                        var str = response.Content.ReadAsStringAsync().Result;
+                    }
+                }
+                
             }
             catch (Exception ex)
             {

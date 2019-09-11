@@ -8,3 +8,4 @@
 /ApolloBot.Console.NetCore/appsettings.Release.json
 /ApolloBot.Console.NetCore/appsettings.Debug.json
 /packages
+/ApolloBot.Console.NetCore/Properties/PublishProfiles

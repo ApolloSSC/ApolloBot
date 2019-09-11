@@ -30,6 +30,6 @@ namespace ApolloBot.BeatSaver.Models
         public string AuthorName { get; set; }
 
         [DataMember(Name = "bpm")]
-        public int Bpm { get; set; }
+        public float Bpm { get; set; }
     }
 }

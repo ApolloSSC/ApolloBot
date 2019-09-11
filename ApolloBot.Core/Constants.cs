@@ -74,6 +74,8 @@ namespace ApolloBot.Core
         public const string DESC_BEATSAVER_TOP_PLAYED= "Top joués";
         public const string CMD_BEATSAVER_SEARCH = "!beatsabersearch";
         public const string DESC_BEATSAVER_SEARCH = "Chercher une musique";
+        public const string CMD_BEATSAVER_RANKED = "!beatsaberplaylist";
+        public const string DESC_BEATSAVER_RANKED = "Créer une playlist avec toutes les musiques ranked";
         public const string CMD_BEATSAVER_PLAY = "!bsp";
         public const string DESC_BEATSAVER_PLAY = "Jouer une musique";
         public const string CMD_BEATSAVER_STOP = "!bsstop";
@@ -90,6 +92,8 @@ namespace ApolloBot.Core
         public const string DESC_READER_GET_ALL = "Récupère tous les lecteurs disponibles";
 
         //Categories
+        public const string CMD_HELP = "!help";
+        public const string DESC_HELP = "Affiche l'aide";
         public const string CMD_CATEGORY_ACTIONS = "!category";
         public const string DESC_CATEGORY_ACTIONS = "Récupère toutes les actions d'une categorie";
         public const string CMD_CATEGORY_ALL = "!categories";
